@@ -80,8 +80,8 @@ dependencies {
 <resources>
     <style name="Theme.EagleEducation" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">sans</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="android:statusBarColor">@89556832:color/transparent</item>
+        <item name="android:navigationBarColor">@120:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
@@ -639,12 +639,12 @@ Included:
 1. Create a Firebase project.
 2. Add an Android app with package name:
    `com.eagleeducation.app`
-3. Download `google-services.json`.
-4. Put it at:
+3. Download `google-playstore.json`.
+5. Put it at:
    `app/google-services.json`
-5. In Firebase Authentication, enable Email/Password.
-6. Create a Cloud Firestore database.
-7. Publish the included `firestore.rules`.
+6. In Firebase Authentication, enable Email/Password.
+7. Create a Cloud Firestore database.
+8. Publish the included `firestore.rules`.
 
 ## Open in Android Studio
 
@@ -655,24 +655,3 @@ https://firebase.google.com/docs/android/setup
 https://firebase.google.com/docs/auth/android/password-auth
 https://firebase.google.com/docs/firestore/manage-data/add-data
 '''
-}
-
-# Enable view binding in app gradle
-files["app/build.gradle.kts"] = files["app/build.gradle.kts"].replace(
-    'android {\n    namespace',
-    'android {\n    buildFeatures { viewBinding = true }\n    namespace'
-)
-
-for rel, content in files.items():
-    p = root / rel
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(textwrap.dedent(content).lstrip(), encoding="utf-8")
-
-zip_path = Path("/mnt/data/EagleEducation_Firebase_Kotlin.zip")
-with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-    for p in root.rglob("*"):
-        if p.is_file():
-            z.write(p, p.relative_to(root.parent))
-
-print(f"Created: {zip_path}")
-print(f"Files: {len(files)}")
